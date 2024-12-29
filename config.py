@@ -1,0 +1,25 @@
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+NUM_PARTICLES = 500
+PARTICLE = {
+    "MAX_RADIUS": 8,
+}
+
+GRAVITY = 980
+VISCOSITY = 0.8
+DRAG = 0.1
+
+SUB_STEPS = 1
+QUADTREE_CAPACITY = 4
+RENDER_QUAD_TREE = False
+
+COLORS = {
+    "background": (0, 0, 0),
+    "particle": (255, 255, 255)
+}
+
+COLLISION = {
+    "RESTITUTION": 0.9,
+    "MIN_VELOCITY": 0.01,
+    "MIN_DISTANCE": 0.0001
+}
