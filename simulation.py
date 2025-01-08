@@ -37,7 +37,7 @@ class Simulation:
                     pos=[origin_x + c * radius * 2, origin_y + r * radius * 2 ] + noise,
                     vel=[0, 0],
                     acc=[0, 0],
-                    color=(0, 0, 255),
+                    color=pg.Color("blue"),
                     radius=np.random.uniform(radius // 2, radius)
                 )
                 particles.put(count, particle)
@@ -74,7 +74,15 @@ class Simulation:
             particle.render(screen)
         
         if config.RENDER_QUAD_TREE:
-            self.render_quad_tree(screen)  # Only for debugging purposes
+            self.render_quad_tree(screen)
+
+            mouse_pos = pg.mouse.get_pos()
+            mouse_bound = self.quad_tree.get_boundary(mouse_pos)
+            mouse_bound.render(screen, pg.Color("red"))
+
+            found_particles = self.quad_tree.query(mouse_bound)
+            for p in found_particles:
+                pg.draw.circle(screen, pg.Color("white"), p.pos, p.radius, 1)
 
     def render_quad_tree(self, screen):
         self.quad_tree.render(screen)
@@ -108,7 +116,7 @@ class Simulation:
         viscous_force = -6 * np.pi * particle.radius * config.VISCOSITY * particle.vel
         self.apply_force(viscous_force, particle)
 
-    def apply_mouse_force(self, mouse_pos, radius, strenght_factor, particle: Particle):
+    def apply_mouse_force(self, mouse_pos, radius, strength_factor, particle: Particle):
         direction = np.array(mouse_pos) - particle.pos
         distance = np.linalg.norm(direction)
         if distance == 0:
@@ -116,7 +124,7 @@ class Simulation:
 
         if distance < radius:
             direction /= distance
-            strength = (1 - distance / radius) ** 2 * strenght_factor
+            strength = (1 - distance / radius) ** 2 * strength_factor
             self.apply_force(strength * direction, particle)
 
     def resolve_collisions(self):
@@ -140,7 +148,7 @@ class Simulation:
         for particle in self.particles:
             self.quad_tree.insert(particle)
             
-            # Create a search range around the particle
+        for particle in self.particles:
             search_range = Boundary(
                 particle.pos[0], 
                 particle.pos[1], 
