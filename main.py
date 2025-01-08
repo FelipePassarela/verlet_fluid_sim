@@ -32,7 +32,7 @@ def main():
         delta_time = clock.get_time() / 1000.0
         simulation.update(delta_time)
 
-        screen.fill((0, 0, 0))
+        screen.fill(config.COLORS["background"])
         simulation.render(screen)
 
         # display debug infos
@@ -42,7 +42,7 @@ def main():
         msg += f"  Gravity: {config.GRAVITY}"
 
         font = pg.font.Font(None, 26)
-        text = font.render(msg, True, (255, 255, 255))
+        text = font.render(msg, True, pg.Color("white"))
         screen.blit(text, (10, 10))
 
         pg.display.flip()

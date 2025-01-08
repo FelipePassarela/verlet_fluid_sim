@@ -8,7 +8,7 @@ class Particle:
         pos: list, 
         vel: list=[0, 0], 
         acc: list=[0, 0], 
-        color: tuple=(255, 0, 0), 
+        color: pg.Color=pg.Color("blue"), 
         radius: int=5
     ):
         self.pos = np.array(pos, dtype=float)
