@@ -152,8 +152,8 @@ class Simulation:
             search_range = Boundary(
                 particle.pos[0], 
                 particle.pos[1], 
-                particle.radius * 2,
-                particle.radius * 2
+                particle.radius + config.PARTICLE["MAX_RADIUS"],
+                particle.radius + config.PARTICLE["MAX_RADIUS"]
             )
 
             nearby = self.quad_tree.query(search_range)
